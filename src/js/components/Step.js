@@ -8,7 +8,7 @@ export default class Step extends React.Component{
 
 		const bloc  = this.props.step.Blocks;
 		const blocks = bloc.map((bl) => {
-				return <Block elements={bl.elements} title={bl.blockTitle}/>
+				return <Block elements={bl.elements} title={bl.blockTitle} behaviour={this.props.behaviour}/>
 			});
 		
 		return(

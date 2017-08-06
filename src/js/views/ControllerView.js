@@ -1,7 +1,9 @@
 import React from "react";
 import $ from "jquery";
 import Step from "../components/Step";
+import Button from "../components/Button";
 import FormStore from "../Store/FormStore";
+import { Link } from "react-router";
 
 export default class ControllerView extends React.Component{
 
@@ -9,12 +11,11 @@ export default class ControllerView extends React.Component{
 		super();	
 		this.state={stepno:0};
 		this.ChangeStep = this.ChangeStep.bind(this);
+		this.setStep= this.setStep.bind(this);
 	}
 
-	componentWillMount(){
-
-		FormStore.on("change", () => {
-			if(this.state.stepno==0){
+	setStep(){
+		if(this.state.stepno==0){
 				this.setState({
 					stepno : 1,
 					step: FormStore.forms.form.Steps[0]
@@ -25,8 +26,14 @@ export default class ControllerView extends React.Component{
 					step: FormStore.forms.form.Steps[this.state.stepno-1]
 				});
 			}
-			
-		});
+	}
+
+	componentWillMount(){
+		FormStore.on("change", this.setStep);
+	}
+
+	componentWillUnmount(){
+		FormStore.removeListener("change", this.setStep);
 	}
 
 	ChangeStep(e){
@@ -52,7 +59,8 @@ export default class ControllerView extends React.Component{
 								{navigationlist}
 							</ul>
 						</div>
-						<Step step={this.state.step}/>
+						<Step step={this.state.step} behaviour="form"/>
+						<Link to="Summary"><Button btnName="Summary"/></Link>
 					</div>
 				);
 		}else{

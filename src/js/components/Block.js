@@ -8,7 +8,7 @@ export default class Block extends React.Component{
 
 		const elems = this.props.elements;
 		const elements = elems.map((elem) => {
-				return <Element elem={elem}/>
+				return <Element elem={elem} behaviour={this.props.behaviour}/>
 			});
 
 		return(
